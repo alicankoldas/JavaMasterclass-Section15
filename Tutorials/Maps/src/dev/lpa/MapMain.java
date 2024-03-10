@@ -57,14 +57,6 @@ public class MapMain {
         contacts.clear();
 
         for(Contact contact : fullList){
-            contacts.putIfAbsent(contact.getName(), contact);
-        }
-        contacts.forEach((k,v) -> System.out.println("key=" + k + ", value= " + v));
-
-        System.out.println("--------------------------");
-        contacts.clear();
-
-        for(Contact contact : fullList){
             Contact duplicate = contacts.putIfAbsent(contact.getName(), contact);
             if(duplicate != null){
                 contacts.put(contact.getName(), contact.mergeContactData(duplicate));
@@ -72,11 +64,29 @@ public class MapMain {
         }
         contacts.forEach((k,v) -> System.out.println("key=" + k + ", value= " + v));
 
+//        System.out.println("--------------------------");
+//        contacts.clear();
+//        fullList.forEach( contact -> contacts.merge(contact.getName(), contact,
+//                (previous, current) -> {
+//                    System.out.println("prev: " + previous + " : current " + current);
+//                    Contact merged = previous.mergeContactData(current);
+//                    System.out.println("merged: " + merged);
+//                    return merged;
+//                }
+//                ));
+
         System.out.println("--------------------------");
         contacts.clear();
         fullList.forEach( contact -> contacts.merge(contact.getName(), contact,
                 Contact::mergeContactData));
         contacts.forEach((k,v) -> System.out.println("key=" + k + ", value= " + v));
+
+//        System.out.println("---------------------------");
+//        for(String contactName : new String[] { "Daisy Duck", "Daffy Duck",
+//            "Scrooge McDuck"}) {
+//            contacts.compute(contactName, (k, v) -> new Contact(k));
+//        }
+//        contacts.forEach((k, v) -> System.out.println("key=" + k + ", value= " + v));
 
         System.out.println("---------------------------");
         for(String contactName : new String[] { "Daisy Duck", "Daffy Duck",
@@ -89,7 +99,9 @@ public class MapMain {
         for(String contactName : new String[] { "Daisy Duck", "Daffy Duck",
                 "Scrooge McDuck"}) {
             contacts.computeIfPresent(contactName, (k,v) -> {
-                v.addEmail("Fun Place"); return v; });
+                v.addEmail("Fun Place");
+                return v;
+            });
         }
         contacts.forEach((k, v) -> System.out.println("key=" + k + ", value= " + v));
 

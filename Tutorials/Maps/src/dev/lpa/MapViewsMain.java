@@ -36,8 +36,12 @@ public class MapViewsMain {
         keysView.clear();
         System.out.println(contacts);
 
+        //keysView.add("Daffy Duck");
+        //System.out.println(contacts);
+
         ContactData.getData("email").forEach(c -> contacts.put(c.getName(), c));
         ContactData.getData("phone").forEach(c -> contacts.put(c.getName(), c));
+        keysView = contacts.keySet();
         System.out.println(keysView);
 
         var values = contacts.values();
